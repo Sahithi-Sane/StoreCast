@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreCast: Walmart Sales Forecasting</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4FC3F7;
+            --secondary-color: #03A9F4;
+            --accent-color: #FFC107;
+            --bg-color: #121212;
+            --bg-card: #1E1E1E;
+            --text-color: #FFFFFF;
+            --border-color: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto', Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background-color: rgba(79, 195, 247, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        
+        .intro-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: block;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+        
+        .intro-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .image-container {
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .image-subheading {
+            font-size: 18px;
+            text-align: center;
+            color: #CCC;
+            margin-top: 15px;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(79, 195, 247, 0.2), rgba(79, 195, 247, 0.1));
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .quote {
+            font-style: italic;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin: 40px 0;
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            background-color: rgba(79, 195, 247, 0.05);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .nav a {
+                margin: 5px;
+                font-size: 16px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StoreCast: Walmart Sales Forecasting</h1>
+        </header>
+
+        <div class="nav">
+            <a href="/">Introduction</a>
+            <a href="/walmart-data">Walmart Data</a>
+            <a href="/data-analysis">Data Analysis</a>
+            <a href="/prediction">Predictions</a>
+        </div>
+
+        <div class="content">
+            <h2>Introduction</h2>
+
+            <p>
+                Welcome to <span class="highlight">StoreCast</span>, a predictive analytics tool designed to transform the way Walmart approaches retail forecasting.
+                As one of the largest retailers in the world, Walmart's ability to anticipate customer demand on a weekly basis is critical 
+                for making accurate decisions around inventory, promotions, and workforce management. This app leverages time-series modeling 
+                to predict future sales, allowing Walmart teams to better align their operational strategies with evolving customer needs and market trends.
+            </p>
+
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/forecasting.png') }}" 
+                     alt="Sales Forecasting" class="intro-image" />
+            </div>
+
+            <p>
+                Retail operations are highly dynamic, especially when spanning different regions and departments. From seasonal shifts 
+                and local festivities to economic influences and promotional events, Walmart stores experience diverse sales patterns. 
+                This app uses Auto ARIMA and XGBoost models in an ensemble approach to learn from historical sales trends and predict future store-level 
+                performance. By addressing the complexity of these trends, our solution helps Walmart reduce waste, avoid stockouts, and meet 
+                customer demand efficiently across all its store locations.
+            </p>
+
+            <p>
+                The forecasting model incorporated into StoreCast uses weekly sales data for 45 Walmart stores. This data captures both 
+                general trends and anomalies driven by holidays or local variations in demand. Through structured cleaning and preprocessing, 
+                we ensure the model is trained on relevant and high-quality inputs. Our goal is to generate forecasts that are not only 
+                accurate but also actionable—enabling better planning, smoother logistics, and optimized inventory turnover for every store.
+            </p>
+
+            <div class="quote">
+                "Forecasting tomorrow, optimizing today."
+            </div>
+        </div>
+    </div>
+</body>
+</html>

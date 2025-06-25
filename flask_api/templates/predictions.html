@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreCast: Predictions</title>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4FC3F7;
+            --secondary-color: #03A9F4;
+            --accent-color: #FFC107;
+            --bg-color: #121212;
+            --bg-card: #1E1E1E;
+            --text-color: #FFFFFF;
+            --border-color: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto', Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background-color: rgba(79, 195, 247, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .form-group {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #212121;
+            color: var(--text-color);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .description {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 16px;
+            color: #CCC;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        #prediction-results {
+            margin-top: 40px;
+            display: none;
+        }
+        
+        #prediction-output {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: rgba(79, 195, 247, 0.1);
+        }
+        
+        #prediction-plot {
+            margin: 0 auto;
+            width: 100%;
+            height: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: block;
+        }
+        
+        #prediction-table {
+            width: 100%;
+            margin: 30px 0;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #prediction-table th, #prediction-table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        
+        #prediction-table th {
+            background-color: var(--primary-color);
+            color: #000;
+            font-weight: 500;
+        }
+        
+        #prediction-table tbody tr {
+            background-color: #212121;
+            transition: background-color 0.3s;
+        }
+        
+        #prediction-table tbody tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+        
+        #prediction-table tbody tr:hover {
+            background-color: #333;
+        }
+        
+        .download-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .download-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .download-link:hover {
+            background-color: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(79, 195, 247, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .nav a {
+                margin: 5px;
+                font-size: 16px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            #prediction-table th, #prediction-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StoreCast: Walmart Sales Forecasting</h1>
+        </header>
+
+        <div class="nav">
+            <a href="/">Introduction</a>
+            <a href="/walmart-data">Walmart Data</a>
+            <a href="/data-analysis">Data Analysis</a>
+            <a href="/prediction">Predictions</a>
+        </div>
+        
+        <div class="card">
+            <h2>Select Store and Prediction Window</h2>
+            <form id="prediction-form">
+                <div class="form-group">
+                    <label for="store_id">Store ID (1 to 45):</label>
+                    <input type="number" id="store_id" name="store_id" min="1" max="45" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="forecast_period">Prediction Window (Days, 1 to 150):</label>
+                    <input type="number" id="forecast_period" name="forecast_period" min="1" max="150" value="12" required>
+                </div>
+                
+                <p class="description">Click the button below to predict sales for your selected Walmart store.</p>
+                <button type="submit">Generate Forecast</button>
+            </form>
+        </div>
+
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Generating Sales forecast, please wait...</p>
+        </div>
+
+        <div id="prediction-results">
+            <h2>Sales Forecast</h2>
+            <div id="prediction-output" class="card"></div>
+            
+            <div class="card">
+                <h3>Sales Forecast Visualization</h3>
+                <div id="prediction-plot" style="text-align: center; width: 100%; height: 600px;"></div>
+            </div>
+            
+            <div class="card">
+                <h3>Sales Prediction Table</h3>
+                <table id="prediction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>ARIMA Forecast</th>
+                            <th>XGBoost Forecast</th>
+                            <th>Ensemble Forecast</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            <div class="download-section">
+                <a id="download-excel" href="#" class="download-link" style="display: none;">
+                    Download Excel Report
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("prediction-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            
+            // Show loading spinner
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('prediction-results').style.display = 'none';
+            
+            // Clear previous results
+            document.getElementById("prediction-table").getElementsByTagName('tbody')[0].innerHTML = '';
+
+            const storeId = document.getElementById("store_id").value;
+            const forecastPeriod = document.getElementById("forecast_period").value;
+
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ store_id: storeId, forecast_period: forecastPeriod })
+                });
+
+                const result = await response.json();
+                
+                // Hide loading spinner
+                document.querySelector('.loading').style.display = 'none';
+                
+                if (result.error) {
+                    document.getElementById("prediction-output").innerHTML = `
+                        <div style="color: #F44336;">
+                            <strong>Error:</strong> ${result.error}
+                        </div>`;
+                    document.getElementById('prediction-results').style.display = 'block';
+                    return;
+                }
+
+                // Display success message
+                document.getElementById("prediction-output").innerHTML = `
+                    <div style="color: #4CAF50;">
+                        <strong>Success!</strong> Sales forecast generated for Store ${storeId} for the next ${forecastPeriod} weeks.
+                    </div>`;
+                
+                // Display the plot
+                const plotDiv = document.getElementById("prediction-plot");
+                if (result.plot_data) {
+
+                    // Parse the JSON plot data and create the plot
+                    const plotData = JSON.parse(result.plot_data);
+
+                    // ✅ Add these two debug lines here
+                    console.log("🔁 Re-rendering plot for store", storeId);
+                    console.log("Plot Data:", plotData);
+                    
+                    // ✅ Add this line before plotting
+                    Plotly.purge(plotDiv);  // Clear previous plot
+                    
+                    Plotly.newPlot('prediction-plot', plotData.data, plotData.layout);
+                }
+                
+                // Populate the table with predicted sales data
+                const tableBody = document.getElementById("prediction-table").getElementsByTagName('tbody')[0];
+                
+                if (result.prediction && result.prediction.length > 0) {
+                    result.prediction.forEach((sales) => {
+                        const row = tableBody.insertRow();
+                        
+                        // Date cell
+                        const dateCell = row.insertCell(0);
+                        dateCell.textContent = sales.Date;
+                        
+                        // ARIMA forecast cell
+                        const arimaCell = row.insertCell(1);
+                        arimaCell.textContent = formatCurrency(sales.ARIMA);
+                        
+                        // XGBoost forecast cell
+                        const xgbCell = row.insertCell(2);
+                        xgbCell.textContent = formatCurrency(sales.XGBoost);
+                        
+                        // Ensemble forecast cell
+                        const ensembleCell = row.insertCell(3);
+                        ensembleCell.textContent = formatCurrency(sales.Ensemble);
+                        ensembleCell.style.fontWeight = 'bold';
+                    });
+                }
+                
+                // Configure Excel download link
+                if (result.excel_file) {
+                    const link = document.getElementById("download-excel");
+                    const blob = new Blob(
+                        [new Uint8Array(atob(result.excel_file).split("").map(char => char.charCodeAt(0)))], 
+                        { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+                    );
+                    const url = window.URL.createObjectURL(blob);
+                    link.href = url;
+                    link.download = `store_${storeId}_forecast.xlsx`;
+                    link.style.display = 'inline-block';
+                }
+                
+                // Show results section
+                document.getElementById('prediction-results').style.display = 'block';
+                
+            } catch (error) {
+                // Hide loading spinner and show error
+                document.querySelector('.loading').style.display = 'none';
+                document.getElementById("prediction-output").innerHTML = `
+                    <div style="color: #F44336;">
+                        <strong>Error:</strong> Something went wrong with the forecast. Please try again.
+                    </div>`;
+                document.getElementById('prediction-results').style.display = 'block';
+                console.error("Error:", error);
+            }
+        });
+        
+        // Function to format currency values
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            }).format(value);
+        }
+    </script>
+</body>
+</html>

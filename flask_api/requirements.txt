@@ -1,0 +1,13 @@
+flask
+boto3
+s3fs
+s3transfer
+pandas
+joblib
+python-dotenv
+plotly
+pmdarima
+numpy==1.26.4
+openpyxl
+xgboost
+prometheus_client

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoreCast: Walmart Data</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4FC3F7;
+            --secondary-color: #03A9F4;
+            --accent-color: #FFC107;
+            --bg-color: #121212;
+            --bg-card: #1E1E1E;
+            --text-color: #FFFFFF;
+            --border-color: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto', Calibri, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin: 30px 0 20px;
+            color: var(--primary-color);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--accent-color);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav a:hover {
+            background-color: rgba(79, 195, 247, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+        
+        strong {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .file-card {
+            background-color: rgba(79, 195, 247, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .file-name {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .file-desc {
+            color: #CCC;
+        }
+        
+        .holiday-section {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: rgba(255, 193, 7, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .holiday-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .holiday-list li {
+            margin-bottom: 10px;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .nav a {
+                margin: 5px;
+                font-size: 16px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>StoreCast: Walmart Sales Forecasting</h1>
+        </header>
+
+        <div class="nav">
+            <a href="/">Introduction</a>
+            <a href="/walmart-data">Walmart Data</a>
+            <a href="/data-analysis">Data Analysis</a>
+            <a href="/prediction">Predictions</a>
+        </div>
+
+        <div class="content">
+            <h2>Walmart Dataset Overview</h2>
+
+            <p>
+                The dataset used in this project originates from the Walmart Store Sales Forecasting competition on Kaggle. 
+                It consists of historical sales data collected from 45 Walmart stores located in different U.S. regions. 
+                Each store contains several departments, and the goal is to forecast department-level weekly sales to enable better business planning and resource allocation.
+            </p>
+
+            <p>
+                The dataset reflects Walmart's complex retail environment, including its promotional markdown strategy and its reliance on 
+                seasonal sales. In particular, markdown events surrounding key holidays — Super Bowl, Labor Day, Thanksgiving, and Christmas — 
+                play a significant role in influencing sales trends. These weeks are given higher evaluation weight, which increases the importance 
+                of modeling their effects correctly, even in the absence of complete markdown data.
+            </p>
+
+            <h2>Files Used in This Project</h2>
+
+            <div class="file-card">
+                <span class="file-name">stores.csv</span>
+                <p class="file-desc">
+                    This file contains anonymized metadata for each store, including its type and physical size. It helps us understand structural differences across stores.
+                </p>
+            </div>
+
+            <div class="file-card">
+                <span class="file-name">train.csv</span>
+                <p class="file-desc">
+                    This file holds the historical weekly sales data from 2010-02-05 to 2012-11-01. Key columns include Store number, Department number, 
+                    Date, Weekly_Sales, and IsHoliday (a flag indicating if that week includes a major holiday).
+                </p>
+            </div>
+
+            <div class="file-card">
+                <span class="file-name">test.csv</span>
+                <p class="file-desc">
+                    Structurally identical to train.csv, but it lacks the Weekly_Sales column. The objective is to predict sales for each Store-Dept-Date triplet in this file.
+                </p>
+            </div>
+
+            <div class="file-card">
+                <span class="file-name">features.csv</span>
+                <p class="file-desc">
+                    This file provides additional economic and regional context including average Temperature, Fuel_Price, CPI (Consumer Price Index), 
+                    Unemployment, and five promotional MarkDown columns. MarkDown data is only partially available (post-Nov 2011 and not for all stores).
+                </p>
+            </div>
+
+            <div class="holiday-section">
+                <h2>Holiday Considerations</h2>
+
+                <p>
+                    Four major holidays significantly impact the dataset and are key factors in our sales forecasting models:
+                </p>
+                
+                <ul class="holiday-list">
+                    <li><strong>Super Bowl</strong> - Weeks include 12-Feb-10, 11-Feb-11, 10-Feb-12, 8-Feb-13</li>
+                    <li><strong>Labor Day</strong> - Early September</li>
+                    <li><strong>Thanksgiving</strong> - Late November</li>
+                    <li><strong>Christmas</strong> - Late December</li>
+                </ul>
+                
+                <p>
+                    These holidays correspond to specific weeks in the dataset, and their impact is modeled more heavily during evaluation.
+                    Accurately modeling these periods is critical for strong performance as they represent significant deviations from normal sales patterns.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
